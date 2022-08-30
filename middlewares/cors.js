@@ -1,7 +1,7 @@
 const allowedCors = [
   'http://localhost:3000',
-  'https://mesto.smolib.nomoredomains.sbs',
-  'http://mesto.smolib.nomoredomains.sbs',
+  'http://api.diploma.smolib.nomoredomains.sbs/',
+  'http://diploma.smolib.nomoredomains.sbs/',
 ];
 
 module.exports = (req, res, next) => {
