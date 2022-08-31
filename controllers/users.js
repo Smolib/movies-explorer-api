@@ -4,6 +4,15 @@ const NotFoundError = require('../errors/NotFoundError');
 const BadRequestError = require('../errors/BadRequestError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
 const ConflictError = require('../errors/ConflictError');
+const {
+  emailIsAlreadyBusy,
+  incorrectDataToCreateUser,
+  userNotFound,
+  cannotChangeOtherUsers,
+  incorrectDataToUpdateUser,
+  successSingin,
+  successSingout,
+} = require('../constants/messages');
 const User = require('../models/user');
 const {
   ok, created,
@@ -29,10 +38,10 @@ const createUser = (req, res, next) => {
     }))
     .catch((err) => {
       if (err.code === 11000) {
-        next(new ConflictError('Этот email уже занят'));
+        next(new ConflictError(emailIsAlreadyBusy));
       }
       if (err.name === 'ValidationError') {
-        next(new BadRequestError('Некорректные данные для создания пользователя'));
+        next(new BadRequestError(incorrectDataToCreateUser));
       } else next(err);
     });
 };
@@ -40,16 +49,16 @@ const createUser = (req, res, next) => {
 const updateUser = (req, res, next) => {
   const { name, email } = req.body;
   User.findByIdAndUpdate(req.user._id, { name, email }, { new: true, runValidators: true })
-    .orFail(new NotFoundError('Пользователь не найден'))
+    .orFail(new NotFoundError(userNotFound))
     .then((user) => {
       res.status(ok).send(user);
     })
     .catch((err) => {
       if (err.code === 11000) {
-        next(new ConflictError('Нельзя обновлять данные других пользователей'));
+        next(new ConflictError(cannotChangeOtherUsers));
       }
       if (err.name === 'ValidationError') {
-        next(new BadRequestError('Некорректные данные для обновления данных пользователя'));
+        next(new BadRequestError(incorrectDataToUpdateUser));
       } else next(err);
     });
 };
@@ -64,10 +73,10 @@ const login = (req, res, next) => {
         maxAge: 3600000,
         httpOnly: true,
         sameSite: true,
-        // secure: true,
+        secure: true,
       })
         .send({
-          message: 'Вход в систему завершен успешно',
+          message: successSingin,
         });
     })
     .catch((err) => {
@@ -76,7 +85,7 @@ const login = (req, res, next) => {
 };
 
 const signOut = (req, res) => {
-  res.clearCookie('jwt').send({ message: 'Успешный выход из системы' });
+  res.clearCookie('jwt').send({ message: successSingout });
 };
 
 module.exports = {
