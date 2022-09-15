@@ -14,7 +14,7 @@ const signupValidator = celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
     password: Joi.string().required(),
-    name: Joi.string().required(),
+    name: Joi.string().min(2).max(30).required(),
   }),
 });
 
@@ -27,7 +27,7 @@ const signinValidator = celebrate({
 
 const userUpdateValidator = celebrate({
   body: Joi.object().keys({
-    name: Joi.string().required(),
+    name: Joi.string().min(2).max(30).required(),
     email: Joi.string().email().required(),
   }),
 });

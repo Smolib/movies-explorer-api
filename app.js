@@ -20,12 +20,12 @@ mongoose.connect(MONGOD_ADDRESS, {
   useCreateIndex: true,
   useFindAndModify: false,
 });
-app.use(limiter);
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(cors);
 app.use(cookieParser());
 app.use(requestLogger);
+app.use(limiter);
 app.use(router);
 app.use(errorLogger);
 app.use(errors());
