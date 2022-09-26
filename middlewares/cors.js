@@ -1,7 +1,7 @@
 const allowedCors = [
   'http://localhost:3000',
-  'http://api.diploma.smolib.nomoredomains.sbs/',
-  'http://diploma.smolib.nomoredomains.sbs/',
+  'https://api.diploma.smolib.nomoredomains.sbs',
+  'https://diploma.smolib.nomoredomains.sbs',
 ];
 
 module.exports = (req, res, next) => {

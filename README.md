@@ -3,4 +3,4 @@
   
 [https://api.diploma.smolib.nomoredomains.sbs/](https://api.diploma.smolib.nomoredomains.sbs/)
 
-IP 62.84.114.87
+IP 130.193.51.121
